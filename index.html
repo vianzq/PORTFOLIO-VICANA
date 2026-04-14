@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kai Reyes — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d0d0d;
+  --paper: #f5f0e8;
+  --cream: #ede8dc;
+  --accent: #c9420f;
+  --accent2: #1a6b5c;
+  --gold: #c8960c;
+  --muted: #7a7368;
+  --glass: rgba(245,240,232,0.55);
+  --glass-dark: rgba(13,13,13,0.45);
+  --radius: 18px;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --transition: cubic-bezier(.25,.8,.25,1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8e3d8;
+    --paper: #111109;
+    --cream: #1a1912;
+    --accent: #e05a28;
+    --accent2: #2a9d8f;
+    --gold: #e8b422;
+    --muted: #8a8478;
+    --glass: rgba(17,17,9,0.60);
+    --glass-dark: rgba(245,240,232,0.10);
+  }
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity;font-size:16px}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--paper)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+body{
+  font-family:var(--font-body);
+  background:var(--paper);
+  color:var(--ink);
+  cursor:none;
+  overflow-x:hidden;
+}
+/* CURSOR */
+#cursor,#cursor-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s ease,opacity .2s ease}
+#cursor{width:36px;height:36px;border:1.5px solid var(--accent);border-radius:50%;transition:width .3s var(--transition),height .3s var(--transition),background .3s,border-color .3s,transform .15s ease}
+#cursor-dot{width:5px;height:5px;background:var(--accent);border-radius:50%}
+body:hover #cursor{opacity:1}
+a:hover~#cursor,a:hover #cursor,.hoverable:hover~#cursor{width:56px;height:56px;background:rgba(201,66,15,.12);border-color:var(--accent)}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 2.5rem;
+  background:var(--glass);
+  backdrop-filter:blur(18px) saturate(180%);
+  -webkit-backdrop-filter:blur(18px) saturate(180%);
+  border-bottom:1px solid rgba(201,66,15,.12);
+  transition:padding .4s var(--transition),background .4s;
+}
+nav.scrolled{padding:.8rem 2.5rem}
+.nav-logo{font-family:var(--font-display);font-size:1.3rem;font-style:italic;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;padding:.25rem 0;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--accent);transition:width .3s var(--transition)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-family:var(--font-mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;background:var(--accent);color:#fff;border:none;padding:.55rem 1.25rem;border-radius:99px;cursor:none;transition:transform .2s,box-shadow .2s;text-decoration:none}
+.nav-cta:hover{transform:scale(1.04);box-shadow:0 6px 24px rgba(201,66,15,.35)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:.25rem}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--ink);transition:.3s}
+
+/* SECTIONS */
+section{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:6rem 2.5rem 4rem;scroll-snap-align:start;position:relative;overflow:hidden}
+.container{max-width:1100px;margin:0 auto;width:100%}
+
+/* HERO */
+#hero{
+  padding:0;min-height:100vh;
+  display:grid;place-items:center;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%,rgba(201,66,15,.12),transparent),
+    radial-gradient(ellipse 50% 50% at 20% 80%,rgba(26,107,92,.10),transparent),
+    var(--paper);
+}
+.hero-inner{text-align:center;padding:2rem;position:relative;z-index:1}
+.hero-tag{
+  font-family:var(--font-mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:1.5rem;display:inline-flex;align-items:center;gap:.6rem;
+  border:1px solid rgba(201,66,15,.3);padding:.4rem 1rem;border-radius:99px;
+}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+h1.hero-name{
+  font-family:var(--font-display);
+  font-size:clamp(3.5rem,10vw,8.5rem);
+  font-weight:700;line-height:.92;
+  letter-spacing:-.03em;
+  background:linear-gradient(135deg,var(--ink) 0%,var(--accent) 55%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:heroReveal 1.2s var(--transition) both;
+}
+@keyframes heroReveal{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero-subtitle{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1rem,2.5vw,1.6rem);color:var(--muted);
+  margin-top:.75rem;animation:heroReveal 1.2s .2s var(--transition) both;
+}
+.hero-desc{
+  max-width:560px;margin:2rem auto 2.5rem;
+  font-size:1.05rem;line-height:1.75;color:var(--muted);
+  animation:heroReveal 1.2s .35s var(--transition) both;
+}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;animation:heroReveal 1.2s .5s var(--transition) both}
+.btn-primary{
+  font-family:var(--font-mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--accent);color:#fff;border:none;padding:.85rem 2rem;border-radius:99px;
+  cursor:none;text-decoration:none;transition:transform .2s,box-shadow .2s;
+  box-shadow:0 4px 20px rgba(201,66,15,.3);
+}
+.btn-primary:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 10px 32px rgba(201,66,15,.4)}
+.btn-outline{
+  font-family:var(--font-mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+  background:transparent;color:var(--ink);border:1px solid rgba(13,13,13,.3);padding:.85rem 2rem;
+  border-radius:99px;cursor:none;text-decoration:none;transition:all .25s;
+}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.hero-scroll{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:float 3s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+.scroll-line{width:1px;height:36px;background:linear-gradient(to bottom,var(--accent),transparent)}
+/* floating orbs */
+.orb{position:absolute;border-radius:50%;pointer-events:none;animation:drift 18s ease-in-out infinite}
+.orb1{width:380px;height:380px;background:radial-gradient(circle,rgba(201,66,15,.09),transparent 70%);top:-10%;right:-8%;animation-delay:-4s}
+.orb2{width:280px;height:280px;background:radial-gradient(circle,rgba(26,107,92,.08),transparent 70%);bottom:5%;left:-5%;animation-delay:-10s}
+.orb3{width:200px;height:200px;background:radial-gradient(circle,rgba(200,150,12,.07),transparent 70%);top:40%;right:15%}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(12px,-18px) scale(1.04)}66%{transform:translate(-10px,14px) scale(.97)}}
+
+/* ABOUT */
+#about{background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:center}
+.about-image-wrap{position:relative}
+.about-image-frame{
+  width:100%;aspect-ratio:3/4;
+  background:linear-gradient(135deg,var(--accent) 0%,var(--gold) 100%);
+  border-radius:var(--radius);position:relative;overflow:hidden;
+  clip-path:polygon(0 0,95% 0,100% 5%,100% 100%,5% 100%,0 95%);
+}
+.about-image-inner{
+  position:absolute;inset:4px;border-radius:calc(var(--radius) - 3px);
+  background:var(--paper);display:flex;align-items:center;justify-content:center;
+  font-size:6rem;
+}
+.about-badge{
+  position:absolute;bottom:-1rem;right:-1rem;
+  background:var(--accent);color:#fff;border-radius:14px;padding:1rem 1.25rem;
+  font-family:var(--font-mono);font-size:.7rem;letter-spacing:.05em;
+  box-shadow:0 8px 30px rgba(201,66,15,.3);
+  animation:float 4s ease-in-out infinite;
+}
+.about-badge strong{display:block;font-size:1.6rem;letter-spacing:-.02em;margin-bottom:.15rem}
+.about-label{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+h2.section-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.8rem);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:1.5rem}
+.about-text{font-size:1.05rem;line-height:1.8;color:var(--muted);margin-bottom:1.25rem}
+.stats-row{display:flex;gap:2rem;margin-top:2rem;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1}
+.stat-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.25rem}
+
+/* JOURNEY */
+#journey{background:var(--paper)}
+.journey-header{text-align:center;margin-bottom:5rem}
+.timeline{position:relative;max-width:800px;margin:0 auto}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--accent),transparent);transform:translateX(-50%)}
+.timeline-item{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;margin-bottom:4rem;align-items:start}
+.timeline-item:nth-child(odd) .tl-content{grid-column:1;text-align:right}
+.timeline-item:nth-child(odd) .tl-content{order:-1}
+.timeline-item:nth-child(even) .tl-content{grid-column:3}
+.tl-dot{
+  width:14px;height:14px;border-radius:50%;background:var(--accent);
+  border:3px solid var(--paper);box-shadow:0 0 0 3px rgba(201,66,15,.25);
+  margin-top:.4rem;position:relative;z-index:1;justify-self:center;
+  transition:transform .3s,box-shadow .3s;
+}
+.timeline-item:hover .tl-dot{transform:scale(1.5);box-shadow:0 0 0 6px rgba(201,66,15,.2)}
+.tl-year{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.12em;color:var(--accent);margin-bottom:.4rem}
+.tl-title{font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:.4rem}
+.tl-desc{font-size:.9rem;color:var(--muted);line-height:1.65}
+
+/* ACHIEVEMENTS */
+#achievements{background:var(--cream)}
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+.ach-card{
+  background:var(--glass);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(201,66,15,.15);
+  border-radius:var(--radius);padding:2rem;
+  position:relative;overflow:hidden;
+  transition:transform .3s var(--transition),box-shadow .3s,border-color .3s;
+}
+.ach-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--gold));
+  transform:scaleX(0);transform-origin:left;transition:transform .4s var(--transition);
+}
+.ach-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(201,66,15,.12);border-color:rgba(201,66,15,.3)}
+.ach-card:hover::before{transform:scaleX(1)}
+.ach-icon{font-size:2.2rem;margin-bottom:1rem}
+.ach-title{font-family:var(--font-display);font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
+.ach-desc{font-size:.9rem;color:var(--muted);line-height:1.65}
+.ach-tag{display:inline-block;margin-top:1rem;font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;background:rgba(201,66,15,.1);color:var(--accent);padding:.3rem .75rem;border-radius:99px}
+
+/* SKILLS */
+#skills{background:var(--paper)}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.skill-bars{display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem}
+.skill-item{}
+.skill-meta{display:flex;justify-content:space-between;margin-bottom:.5rem}
+.skill-name{font-family:var(--font-mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
+.skill-pct{font-family:var(--font-mono);font-size:.8rem;color:var(--accent)}
+.skill-track{height:6px;background:rgba(201,66,15,.12);border-radius:99px;overflow:hidden}
+.skill-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 1.2s var(--transition)}
+.skill-fill.animated{transform:scaleX(1)}
+.lang-bubbles{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem}
+.lang-bubble{
+  background:var(--cream);border:1px solid rgba(201,66,15,.2);
+  border-radius:14px;padding:1rem 1.5rem;text-align:center;
+  transition:transform .25s,box-shadow .25s,border-color .25s;flex:1;min-width:100px;
+}
+.lang-bubble:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(201,66,15,.12);border-color:var(--accent)}
+.lang-name{font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-bottom:.25rem}
+.lang-level{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.soft-skills{margin-top:2.5rem}
+.soft-list{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+.soft-tag{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.06em;padding:.45rem 1rem;border-radius:99px;border:1px solid rgba(26,107,92,.3);color:var(--accent2);background:rgba(26,107,92,.06);transition:all .25s}
+.soft-tag:hover{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+
+/* GOALS */
+#goals{
+  background:var(--ink);color:var(--paper);
+  background-image:
+    radial-gradient(ellipse 60% 50% at 80% 20%,rgba(201,66,15,.2),transparent),
+    radial-gradient(ellipse 40% 60% at 10% 80%,rgba(26,107,92,.15),transparent);
+}
+#goals .section-title{color:var(--paper)}
+#goals .about-label{color:var(--accent)}
+.goals-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:6rem;align-items:center}
+.goal-cards{display:flex;flex-direction:column;gap:1.25rem;margin-top:2.5rem}
+.goal-card{
+  background:rgba(245,240,232,.06);
+  border:1px solid rgba(245,240,232,.12);
+  border-radius:var(--radius);padding:1.5rem;
+  display:flex;gap:1.25rem;align-items:flex-start;
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.goal-card:hover{background:rgba(245,240,232,.10);border-color:rgba(201,66,15,.4);transform:translateX(6px)}
+.goal-num{font-family:var(--font-display);font-size:2.5rem;font-weight:700;color:rgba(201,66,15,.5);line-height:1;flex-shrink:0}
+.goal-title{font-family:var(--font-display);font-size:1.05rem;font-weight:700;margin-bottom:.3rem;color:var(--paper)}
+.goal-desc{font-size:.9rem;color:rgba(245,240,232,.55);line-height:1.65}
+.destination-map{
+  background:rgba(245,240,232,.05);
+  border:1px solid rgba(245,240,232,.1);
+  border-radius:var(--radius);padding:2rem;text-align:center;
+}
+.dest-globe{font-size:5rem;margin-bottom:1rem;animation:spin 20s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.dest-label{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(201,66,15,.7);margin-bottom:.75rem}
+.dest-name{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--paper);margin-bottom:.5rem}
+.dest-program{font-size:.95rem;color:rgba(245,240,232,.6);line-height:1.6;margin-bottom:1.5rem}
+.dest-chips{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.dest-chip{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .75rem;border-radius:99px;border:1px solid rgba(201,66,15,.35);color:var(--accent)}
+
+/* GALLERY MARQUEE */
+#gallery{background:var(--cream);padding:4rem 0;overflow:hidden;min-height:auto}
+.gallery-label{text-align:center;font-family:var(--font-mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:2rem}
+.marquee-track{display:flex;gap:1.5rem;width:max-content;animation:marquee 28s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.gallery-card{
+  width:240px;height:180px;border-radius:14px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+  font-size:2.8rem;border:1px solid rgba(201,66,15,.15);
+  background:var(--paper);transition:transform .25s;
+}
+.gallery-card:hover{transform:scale(1.04) rotate(-1deg)}
+.gallery-card span{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* CONTACT */
+#contact{background:var(--paper)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.contact-intro{font-size:1.1rem;line-height:1.8;color:var(--muted);margin-bottom:2rem}
+.contact-links{display:flex;flex-direction:column;gap:1rem}
+.contact-link{
+  display:flex;align-items:center;gap:1rem;text-decoration:none;color:var(--ink);
+  padding:1rem 1.25rem;border-radius:12px;border:1px solid rgba(201,66,15,.15);
+  transition:all .3s var(--transition);
+}
+.contact-link:hover{border-color:var(--accent);background:rgba(201,66,15,.05);transform:translateX(6px)}
+.cl-icon{font-size:1.3rem;width:38px;height:38px;border-radius:10px;background:rgba(201,66,15,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cl-label{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem}
+.cl-value{font-size:.95rem;font-weight:500}
+.contact-form{display:flex;flex-direction:column;gap:1.25rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+label{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+input,textarea{
+  background:var(--cream);border:1px solid rgba(201,66,15,.2);border-radius:10px;
+  padding:.9rem 1.1rem;font-family:var(--font-body);font-size:.95rem;color:var(--ink);
+  transition:border-color .25s,box-shadow .25s;outline:none;resize:vertical;
+}
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(201,66,15,.12)}
+textarea{min-height:120px}
+.form-btn{
+  font-family:var(--font-mono);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--accent);color:#fff;border:none;padding:1rem 2.5rem;border-radius:99px;
+  cursor:none;transition:transform .2s,box-shadow .2s;align-self:flex-start;
+  box-shadow:0 4px 20px rgba(201,66,15,.3);
+}
+.form-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(201,66,15,.4)}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(245,240,232,.4);text-align:center;padding:2rem;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em}
+footer em{color:var(--accent)}
+
+/* REVEAL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .9s var(--transition),transform .9s var(--transition)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-30px);transition:opacity .9s var(--transition),transform .9s var(--transition)}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(30px);transition:opacity .9s var(--transition),transform .9s var(--transition)}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+[data-delay="1"]{transition-delay:.1s}[data-delay="2"]{transition-delay:.2s}[data-delay="3"]{transition-delay:.3s}[data-delay="4"]{transition-delay:.4s}[data-delay="5"]{transition-delay:.5s}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--paper);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s .2s,visibility .8s .2s}
+#loader.done{opacity:0;visibility:hidden}
+.loader-text{font-family:var(--font-display);font-style:italic;font-size:1.5rem;color:var(--ink);margin-bottom:2rem;animation:pulse 1.5s ease-in-out infinite}
+.loader-bar-track{width:200px;height:2px;background:rgba(201,66,15,.2);border-radius:99px;overflow:hidden}
+.loader-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:99px;animation:loadFill 1.8s var(--transition) forwards}
+@keyframes loadFill{from{width:0}to{width:100%}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .about-grid,.skills-grid,.goals-grid,.contact-grid{grid-template-columns:1fr;gap:3rem}
+  .timeline::before{left:16px}
+  .timeline-item{grid-template-columns:auto 1fr;gap:1rem}
+  .timeline-item:nth-child(odd) .tl-content,.timeline-item:nth-child(even) .tl-content{grid-column:2;text-align:left;order:unset}
+  .tl-dot{justify-self:start}
+  nav{padding:1rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  section{padding:5rem 1.5rem 3rem}
+}
+@media(max-width:600px){
+  .ach-grid{grid-template-columns:1fr}
+  .stats-row{gap:1.25rem}
+  .hero-actions{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <p class="loader-text">Kai Reyes</p>
+  <div class="loader-bar-track"><div class="loader-bar-fill"></div></div>
+</div>
+
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">KR.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#journey">Journey</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in Touch</a>
+  <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Open to opportunities abroad</div>
+    <h1 class="hero-name">Kai Reyes</h1>
+    <p class="hero-subtitle">Student · Scholar · Global Citizen</p>
+    <p class="hero-desc">A driven student from the Philippines, preparing to carry curiosity, culture, and ambition across borders — one chapter at a time.</p>
+    <div class="hero-actions">
+      <a href="#journey" class="btn-primary">My Story</a>
+      <a href="#contact" class="btn-outline">Let's Connect</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-wrap reveal-left">
+        <div class="about-image-frame">
+          <div class="about-image-inner">🎓</div>
+        </div>
+        <div class="about-badge">
+          <strong>3.9</strong>
+          GPA · Dean's List
+        </div>
+      </div>
+      <div class="reveal-right">
+        <p class="about-label">Who I Am</p>
+        <h2 class="section-title">A mind built for<br><em>exploration.</em></h2>
+        <p class="about-text">I'm Kai Reyes, a third-year BS Computer Science student at the University of San Carlos in Cebu City, Philippines. I'm passionate about the intersection of technology, people, and meaningful design.</p>
+        <p class="about-text">Growing up in Cebu — a city that blends heritage and hustle — shaped my appreciation for diverse perspectives. Now, I'm preparing to bring that perspective to the world stage through study abroad.</p>
+        <div class="stats-row">
+          <div class="stat-item reveal" data-delay="1">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Years Studying</div>
+          </div>
+          <div class="stat-item reveal" data-delay="2">
+            <div class="stat-num">12</div>
+            <div class="stat-label">Projects Built</div>
+          </div>
+          <div class="stat-item reveal" data-delay="3">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Awards Won</div>
+          </div>
+          <div class="stat-item reveal" data-delay="4">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Languages</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="container">
+    <div class="journey-header reveal">
+      <p class="about-label">The Road So Far</p>
+      <h2 class="section-title">My Journey</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-content reveal-left">
+          <p class="tl-year">2021</p>
+          <h3 class="tl-title">University Begins</h3>
+          <p class="tl-desc">Enrolled in BS Computer Science at the University of San Carlos. Immediately fell in love with algorithms, design, and the potential of technology to solve real-world problems.</p>
+        </div>
+        <div class="tl-dot"></div>
+        <div></div>
+      </div>
+      <div class="timeline-item">
+        <div></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content reveal-right">
+          <p class="tl-year">2022</p>
+          <h3 class="tl-title">First Research Paper</h3>
+          <p class="tl-desc">Co-authored a research paper on accessibility in mobile UI, presented at a regional student conference. Discovered a passion for human-centered technology.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-content reveal-left">
+          <p class="tl-year">2023</p>
+          <h3 class="tl-title">National Hackathon Winner</h3>
+          <p class="tl-desc">Led a team of four to first place at the National ICT Olympiad Hackathon — building a disaster-response coordination app for underserved communities in the Visayas region.</p>
+        </div>
+        <div class="tl-dot"></div>
+        <div></div>
+      </div>
+      <div class="timeline-item">
+        <div></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content reveal-right">
+          <p class="tl-year">2024</p>
+          <h3 class="tl-title">Exchange Program Accepted</h3>
+          <p class="tl-desc">Selected for the ASEAN University Network exchange program and received a full scholarship from the DOST for graduate studies abroad. The next chapter begins.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-content reveal-left">
+          <p class="tl-year">2025 →</p>
+          <h3 class="tl-title">Study Abroad</h3>
+          <p class="tl-desc">Departing for NTU Singapore to pursue advanced coursework in Human-Computer Interaction and AI Ethics. Excited to grow, contribute, and return with the tools to make a difference.</p>
+        </div>
+        <div class="tl-dot" style="background:var(--gold);box-shadow:0 0 0 6px rgba(200,150,12,.2)"></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:1rem">
+      <p class="about-label">Recognition & Milestones</p>
+      <h2 class="section-title">Achievements</h2>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-card reveal" data-delay="1">
+        <div class="ach-icon">🏆</div>
+        <h3 class="ach-title">National ICT Olympiad Champion</h3>
+        <p class="ach-desc">First place at the 2023 National ICT Olympiad Hackathon among 60+ teams from universities across the Philippines.</p>
+        <span class="ach-tag">Hackathon · 2023</span>
+      </div>
+      <div class="ach-card reveal" data-delay="2">
+        <div class="ach-icon">📜</div>
+        <h3 class="ach-title">DOST Full Scholarship</h3>
+        <p class="ach-desc">Recipient of the Department of Science and Technology merit scholarship covering full tuition, stipend, and study-abroad funding.</p>
+        <span class="ach-tag">Scholarship · 2024</span>
+      </div>
+      <div class="ach-card reveal" data-delay="3">
+        <div class="ach-icon">📝</div>
+        <h3 class="ach-title">Published Research</h3>
+        <p class="ach-desc">Co-authored "Accessibility Patterns in Low-Bandwidth Mobile Interfaces," published in the ICCIT 2022 proceedings.</p>
+        <span class="ach-tag">Research · 2022</span>
+      </div>
+      <div class="ach-card reveal" data-delay="4">
+        <div class="ach-icon">⭐</div>
+        <h3 class="ach-title">Dean's List · 5 Semesters</h3>
+        <p class="ach-desc">Maintained a cumulative GPA of 3.9/4.0, achieving Dean's List recognition for five consecutive semesters.</p>
+        <span class="ach-tag">Academic · 2021–2024</span>
+      </div>
+      <div class="ach-card reveal" data-delay="5">
+        <div class="ach-icon">🤝</div>
+        <h3 class="ach-title">Community Tech Volunteer</h3>
+        <p class="ach-desc">Led 200+ hours of digital literacy workshops for out-of-school youth in Cebu's Labangon district, teaching basic coding and online safety.</p>
+        <span class="ach-tag">Service · 2022–Present</span>
+      </div>
+      <div class="ach-card reveal" data-delay="2">
+        <div class="ach-icon">🌏</div>
+        <h3 class="ach-title">AUN Exchange Selectee</h3>
+        <p class="ach-desc">One of 8 students nationally selected for the ASEAN University Network mobility program — representing USC in Singapore.</p>
+        <span class="ach-tag">Exchange · 2024</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="skills-grid">
+      <div class="reveal-left">
+        <p class="about-label">What I Know</p>
+        <h2 class="section-title">Skills &<br>Expertise</h2>
+        <div class="skill-bars">
+          <div class="skill-item">
+            <div class="skill-meta"><span class="skill-name">Python & Data Science</span><span class="skill-pct">90%</span></div>
+            <div class="skill-track"><div class="skill-fill" style="--pct:0.90" data-width="90"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta"><span class="skill-name">Web Dev (HTML/CSS/JS)</span><span class="skill-pct">88%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="88"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta"><span class="skill-name">UI/UX Design (Figma)</span><span class="skill-pct">82%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="82"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta"><span class="skill-name">Machine Learning</span><span class="skill-pct">75%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="75"></div></div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-meta"><span class="skill-name">Research & Writing</span><span class="skill-pct">85%</span></div>
+            <div class="skill-track"><div class="skill-fill" data-width="85"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <p class="about-label" style="margin-bottom:1rem">Languages</p>
+        <div class="lang-bubbles">
+          <div class="lang-bubble"><div class="lang-name">Filipino</div><div class="lang-level">Native</div></div>
+          <div class="lang-bubble"><div class="lang-name">Cebuano</div><div class="lang-level">Native</div></div>
+          <div class="lang-bubble"><div class="lang-name">English</div><div class="lang-level">Fluent</div></div>
+          <div class="lang-bubble"><div class="lang-name">Mandarin</div><div class="lang-level">Intermediate</div></div>
+        </div>
+        <div class="soft-skills">
+          <p class="about-label">Soft Skills</p>
+          <div class="soft-list">
+            <span class="soft-tag">Problem Solving</span>
+            <span class="soft-tag">Team Leadership</span>
+            <span class="soft-tag">Cross-Cultural Communication</span>
+            <span class="soft-tag">Public Speaking</span>
+            <span class="soft-tag">Critical Thinking</span>
+            <span class="soft-tag">Adaptability</span>
+            <span class="soft-tag">Project Management</span>
+            <span class="soft-tag">Empathy</span>
+            <span class="soft-tag">Research</span>
+            <span class="soft-tag">Creative Direction</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section id="goals">
+  <div class="container">
+    <div class="goals-grid">
+      <div>
+        <div class="reveal">
+          <p class="about-label">Where I'm Headed</p>
+          <h2 class="section-title" style="color:var(--paper)">Aspirations &<br><em style="-webkit-text-fill-color:var(--accent);color:var(--accent)">Dreams.</em></h2>
+          <p style="color:rgba(245,240,232,.55);line-height:1.8;margin-bottom:2rem">My study abroad experience isn't just about a degree — it's about becoming the kind of thinker and leader the Philippines and Southeast Asia needs.</p>
+        </div>
+        <div class="goal-cards">
+          <div class="goal-card reveal" data-delay="1">
+            <div class="goal-num">01</div>
+            <div>
+              <h4 class="goal-title">Master HCI & AI Ethics</h4>
+              <p class="goal-desc">Deepen expertise in human-computer interaction and build an ethical framework for AI systems that serve all communities equally.</p>
+            </div>
+          </div>
+          <div class="goal-card reveal" data-delay="2">
+            <div class="goal-num">02</div>
+            <div>
+              <h4 class="goal-title">Build Global Networks</h4>
+              <p class="goal-desc">Collaborate with students and researchers from across Asia and beyond, forging relationships that outlast the program.</p>
+            </div>
+          </div>
+          <div class="goal-card reveal" data-delay="3">
+            <div class="goal-num">03</div>
+            <div>
+              <h4 class="goal-title">Return & Give Back</h4>
+              <p class="goal-desc">Bring global skills home — launching a tech education initiative for underserved youth in the Visayas region of the Philippines.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="destination-map">
+          <div class="dest-globe">🌏</div>
+          <div class="dest-label">Destination</div>
+          <div class="dest-name">Singapore</div>
+          <div class="dest-program">Nanyang Technological University<br>MSc Human-Computer Interaction<br>January 2026 Intake</div>
+          <div class="dest-chips">
+            <span class="dest-chip">HCI</span>
+            <span class="dest-chip">AI Ethics</span>
+            <span class="dest-chip">Research</span>
+            <span class="dest-chip">ASEAN Scholar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY MARQUEE -->
+<section id="gallery">
+  <div class="gallery-label">Interests & Passions</div>
+  <div class="marquee-track">
+    <div class="gallery-card">📸<span>Photography</span></div>
+    <div class="gallery-card">🎹<span>Piano</span></div>
+    <div class="gallery-card">🏄<span>Surfing</span></div>
+    <div class="gallery-card">📚<span>Reading</span></div>
+    <div class="gallery-card">🌿<span>Sustainability</span></div>
+    <div class="gallery-card">✈️<span>Travel</span></div>
+    <div class="gallery-card">🎨<span>Digital Art</span></div>
+    <div class="gallery-card">🍜<span>Food Exploration</span></div>
+    <div class="gallery-card">📸<span>Photography</span></div>
+    <div class="gallery-card">🎹<span>Piano</span></div>
+    <div class="gallery-card">🏄<span>Surfing</span></div>
+    <div class="gallery-card">📚<span>Reading</span></div>
+    <div class="gallery-card">🌿<span>Sustainability</span></div>
+    <div class="gallery-card">✈️<span>Travel</span></div>
+    <div class="gallery-card">🎨<span>Digital Art</span></div>
+    <div class="gallery-card">🍜<span>Food Exploration</span></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal" style="text-align:center;margin-bottom:3.5rem">
+      <p class="about-label">Get in Touch</p>
+      <h2 class="section-title">Let's Connect</h2>
+      <p style="color:var(--muted);max-width:500px;margin:.75rem auto 0;line-height:1.75">Whether you're a professor, fellow student, or someone who shares a passion for technology and impact — I'd love to hear from you.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <div class="contact-links">
+          <a href="mailto:kai.reyes@student.usc.edu.ph" class="contact-link">
+            <div class="cl-icon">📧</div>
+            <div><div class="cl-label">Email</div><div class="cl-value">kai.reyes@student.usc.edu.ph</div></div>
+          </a>
+          <a href="#" class="contact-link">
+            <div class="cl-icon">💼</div>
+            <div><div class="cl-label">LinkedIn</div><div class="cl-value">linkedin.com/in/kai-reyes-ph</div></div>
+          </a>
+          <a href="#" class="contact-link">
+            <div class="cl-icon">🐙</div>
+            <div><div class="cl-label">GitHub</div><div class="cl-value">github.com/kaireyes-ph</div></div>
+          </a>
+          <a href="#" class="contact-link">
+            <div class="cl-icon">📍</div>
+            <div><div class="cl-label">Based in</div><div class="cl-value">Cebu City, Philippines</div></div>
+          </a>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="contact-form">
+          <div class="form-group">
+            <label for="fname">Your Name</label>
+            <input type="text" id="fname" placeholder="Maria Santos">
+          </div>
+          <div class="form-group">
+            <label for="femail">Email Address</label>
+            <input type="email" id="femail" placeholder="maria@example.com">
+          </div>
+          <div class="form-group">
+            <label for="fmsg">Message</label>
+            <textarea id="fmsg" placeholder="Hello Kai, I'd love to connect about..."></textarea>
+          </div>
+          <button class="form-btn" onclick="handleSend()">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed with <em>intention</em> · Kai Reyes © 2025 · Cebu City, Philippines</p>
+</footer>
+
+<script>
+// Loader
+window.addEventListener('load',()=>{
+  setTimeout(()=>{document.getElementById('loader').classList.add('done')},1900)
+})
+
+// Custom cursor
+const cur=document.getElementById('cursor'),dot=document.getElementById('cursor-dot')
+let mx=0,my=0,cx=0,cy=0
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'})
+function animCursor(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(animCursor)}
+animCursor()
+document.querySelectorAll('a,button,.ach-card,.contact-link,.lang-bubble,.soft-tag').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='52px';cur.style.height='52px';cur.style.background='rgba(201,66,15,.1)'})
+  el.addEventListener('mouseleave',()=>{cur.style.width='36px';cur.style.height='36px';cur.style.background='transparent'})
+})
+
+// Scroll navbar
+const nav=document.getElementById('navbar')
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>60)})
+
+// Reveal on scroll
+const revealEls=document.querySelectorAll('.reveal,.reveal-left,.reveal-right')
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+},{threshold:.12})
+revealEls.forEach(el=>obs.observe(el))
+
+// Skill bars
+const skillObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const fill=e.target
+      const w=fill.dataset.width
+      fill.style.width=w+'%'
+      fill.classList.add('animated')
+    }
+  })
+},{threshold:.5})
+document.querySelectorAll('.skill-fill').forEach(el=>{el.style.width='0';skillObs.observe(el)})
+
+// Parallax orbs
+document.addEventListener('mousemove',e=>{
+  const px=e.clientX/window.innerWidth-.5
+  const py=e.clientY/window.innerHeight-.5
+  document.querySelectorAll('.orb').forEach((orb,i)=>{
+    const d=(i+1)*18
+    orb.style.transform=`translate(${px*d}px,${py*d}px)`
+  })
+})
+
+// Form
+function handleSend(){
+  const name=document.getElementById('fname').value
+  const email=document.getElementById('femail').value
+  if(!name||!email){alert('Please fill in your name and email.');return}
+  alert('Thanks '+name+'! Your message has been sent. Kai will get back to you soon. ✨')
+  document.getElementById('fname').value=''
+  document.getElementById('femail').value=''
+  document.getElementById('fmsg').value=''
+}
+
+// Hamburger (mobile)
+document.getElementById('ham').addEventListener('click',()=>{
+  const links=document.querySelector('.nav-links')
+  if(links.style.display==='flex'){links.style.display='';return}
+  links.style.cssText='display:flex;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:var(--paper);padding:2rem;gap:1.5rem;border-bottom:1px solid rgba(201,66,15,.15)'
+})
+</script>
+</body>
+</html>
